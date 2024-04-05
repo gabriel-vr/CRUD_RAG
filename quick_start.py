@@ -23,7 +23,7 @@ parser.add_argument('--max_new_tokens', type=int, default=1280, help="Maximum nu
 parser.add_argument('--data_path', default='data/crud_split/split_merged.json', help="Path to the dataset")
 parser.add_argument('--shuffle', type=bool, default=True, help="Whether to shuffle the dataset")
 
-parser.add_argument('--embedding_name', default='sentence-transformers/bge-base-zh-v1.5')
+parser.add_argument('--embedding_name', default='ricardo-filho/bert-base-portuguese-cased-nli-assin-2')
 parser.add_argument('--embedding_dim', type=int, default=768)
 
 # Index related options
