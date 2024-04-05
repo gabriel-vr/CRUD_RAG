@@ -9,7 +9,7 @@ GPT_transit_token = ''
 GPT_transit_user = ''
 
 Qwen_7B_local_path = 'Qwen/Qwen-7B-Chat'
-Llama2_7B_Chat_local_path = 'meta-llama/Llama-2-7b-chat'
+Llama2_7B_Chat_local_path = 'meta-llama/Llama-2-7b-chat-hf'
 Baichuan2_13b_local_path = ''
 ChatGLM3_local_path = ''
 Qwen_14B_local_path = ''
