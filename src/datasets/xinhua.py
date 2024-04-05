@@ -1,7 +1,7 @@
 import json
 import os
 import random
-from typing import Any
+from typing import Any, Union, Dict, List
 
 from src.datasets.base import BaseDataset
 
@@ -16,7 +16,7 @@ class Xinhua(BaseDataset):
     def __len__(self) -> int:
         return len(self.data)
 
-    def __getitem__(self, key: int | slice) -> dict | list[dict]:
+    def __getitem__(self, key: Union[int,slice]) -> Union[Dict, List[Dict]]:
             return self.data[key]
 
     def load(self) -> list[dict]:

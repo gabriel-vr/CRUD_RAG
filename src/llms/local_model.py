@@ -8,6 +8,31 @@ except ImportError:
     conf = import_module("src.configs.config")
 from src.llms.base import BaseLLM
 
+class Llama2_7B_Chat(BaseLLM):
+    def __init__(self, model_name: str = "llama2_7b", temperature: float = 1, max_new_tokens: int = 1024):
+        super().__init__(model_name, temperature, max_new_tokens)
+        local_path = conf.Llama2_7B_Chat_local_path
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            local_path, trust_remote_code=True
+        )
+        self.model = AutoModelForCausalLM.from_pretrained(
+            local_path, device_map='auto', trust_remote_code=True
+        ).eval()
+
+        self.gen_kwargs = {
+            "temperature": self.params['temperature'],
+            "do_sample": True,
+            "max_new_tokens": self.params['max_new_tokens'],
+            "top_p": self.params['top_p'],
+            "top_k": self.params['top_k'],
+        }
+
+    def request(self, query: str) -> str:
+        input_ids = self.tokenizer.encode(query, return_tensors='pt').cuda()
+        output = self.model.generate(input_ids, **self.gen_kwargs)[0]
+        response = self.tokenizer.decode(
+            output[len(input_ids[0]) - len(output):], skip_special_tokens=True)
+        return response
 class Qwen_7B_Chat(BaseLLM):
     def __init__(self, model_name='qwen_7b', temperature=1.0, max_new_tokens=1024):
         super().__init__(model_name, temperature, max_new_tokens)

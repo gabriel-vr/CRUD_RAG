@@ -1,0 +1,17 @@
+python quick_start.py \
+  --model_name 'qwen7b' \
+  --temperature 0.1 \
+  --max_new_tokens 1280 \
+  --data_path 'data/CSTNews/CSTNews.json' \
+  --shuffle True \
+  --docs_path 'data/CSTNews/vecStoreFiles' \
+  --docs_type 'txt' \
+  --chunk_size 128 \
+  --chunk_overlap 0 \
+  --retriever_name 'base' \
+  --collection_name 'CSTNews' \
+  --retrieve_top_k 8 \
+  --task 'all' \
+  --num_threads 20 \
+  --show_progress_bar True \
+  --construct_index \ # you need to build a vector index when you use it first time

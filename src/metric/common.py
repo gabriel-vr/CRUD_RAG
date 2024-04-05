@@ -8,6 +8,7 @@ import evaluate
 import jieba
 from loguru import logger
 from text2vec import Similarity
+from typing import Union
 
 
 def catch_all_exceptions(func):
@@ -61,7 +62,7 @@ def kw_precision(
     reference: str,
     kw_extracter: Callable[[str], list[str]],
     with_kw_list: bool = True
-) -> float | tuple[float, list[str], list[str]]:
+) -> Union[float, tuple[float, list[str], list[str]]]:
     """Measure the rationality of a generated continuation sentence with respect to the original news object."""
     kws = kw_extracter(continuation)
     if len(kws) == 0:

@@ -40,7 +40,7 @@ class Summary(BaseTask):
         return retrieve_context
 
     def model_generation(self, obj:dict):
-        template = self._read_prompt_template('summary.txt')
+        template = self._read_prompt_template('summary_portuguese.txt')
         query = template.format(
             event=f'{obj["event"]}',
             search_documents=f'{obj["retrieve_context"]}'
