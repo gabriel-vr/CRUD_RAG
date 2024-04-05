@@ -30,6 +30,7 @@ class Xinhua(BaseDataset):
 
 
 def get_task_datasets(path: str, task: str, shuffle: bool = False, seed: int = 22):
+    print("Path: {}, is file: {}".format(path, os.path.isfile(path)) )
     if os.path.isfile(path):
         with open(path) as f:
             data = json.load(f)
