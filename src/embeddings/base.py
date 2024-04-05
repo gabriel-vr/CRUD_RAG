@@ -9,7 +9,7 @@ import numpy as np
 from langchain.schema.embeddings import Embeddings
 from pydantic.dataclasses import dataclass
 
-DEFAULT_MODEL_NAME = "sentence-transformers/bge-base-zh-v1.5"
+DEFAULT_MODEL_NAME = "ricardo-filho/bert-base-portuguese-cased-nli-assin-2"
 
 @dataclass
 class HuggingfaceEmbeddings(Embeddings):
