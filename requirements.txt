@@ -10,3 +10,4 @@ torch==1.13.1
 elasticsearch
 FlagEmbedding
 rouge_score
+openai==1.25.1
