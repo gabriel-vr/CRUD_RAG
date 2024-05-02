@@ -27,13 +27,15 @@ class Llama2_7B_Chat(BaseLLM):
             "top_k": self.params['top_k'],
         }
 
-    def request(self, query: str) -> str:
+    def request(self, query: str, **kwargs) -> str:
         input_ids = self.tokenizer.encode(query, return_tensors='pt').cuda()
         output = self.model.generate(input_ids, **self.gen_kwargs)[0]
         response = self.tokenizer.decode(
             output[len(input_ids[0]) - len(output):], skip_special_tokens=True)
         return response
-class Qwen_7B_Chat(BaseLLM):
+
+
+"""class Qwen_7B_Chat(BaseLLM):
     def __init__(self, model_name='qwen_7b', temperature=1.0, max_new_tokens=1024):
         super().__init__(model_name, temperature, max_new_tokens)
         local_path = conf.Qwen_7B_local_path
@@ -135,4 +137,4 @@ class Qwen_14B_Chat(BaseLLM):
         response = self.tokenizer.decode(
             output[len(input_ids[0]) - len(output):], skip_special_tokens=True)
         return response
-    
+"""    

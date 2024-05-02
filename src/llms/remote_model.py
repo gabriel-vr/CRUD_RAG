@@ -4,6 +4,7 @@ from loguru import logger
 
 from src.llms.base import BaseLLM
 from importlib import import_module
+from openai import OpenAI
 
 try:
     conf = import_module("src.configs.real_config")
@@ -11,7 +12,7 @@ except ImportError:
     conf = import_module("src.configs.config")
 
 
-class Baichuan2_13B_Chat(BaseLLM):
+"""class Baichuan2_13B_Chat(BaseLLM):
     def request(self, query) -> str:
         url = conf.Baichuan2_13B_url
         payload = json.dumps({
@@ -79,17 +80,20 @@ class Qwen_14B_Chat(BaseLLM):
         res = res.json()['choices'][0]
         return res
 
-
+        
 class GPT(BaseLLM):
     def __init__(self, model_name='gpt-3.5-turbo', temperature=1.0, max_new_tokens=1024, report=False):
         super().__init__(model_name, temperature, max_new_tokens)
         self.report = report
+        self.client = OpenAI()
 
     def request(self, query: str) -> str:
         url = conf.GPT_transit_url
         payload = json.dumps({
             "model": self.params['model_name'],
-            "messages": [{"role": "user", "content": query}],
+            "messages": [
+                {"role": "user", "content": query}
+                ],
             "temperature": self.params['temperature'],
             'max_tokens': self.params['max_new_tokens'],
             "top_p": self.params['top_p'],
@@ -106,5 +110,35 @@ class GPT(BaseLLM):
         real_res = res["choices"][0]["message"]["content"]
 
         token_consumed = res['usage']['total_tokens']
+        logger.info(f'GPT token consumed: {token_consumed}') if self.report else ()
+        return real_res
+
+"""
+
+class GPT(BaseLLM):
+    def __init__(self, model_name='gpt-3.5-turbo', temperature=1.0, max_new_tokens=1024, report=False):
+        super().__init__(model_name, temperature, max_new_tokens)
+        self.report = report
+
+    def request(self, query: str, **kwargs) -> str:
+        systemCommand = kwargs.get("system", "Você é um assitente que deverá performar a tarefa passada no contexto.")
+        payload = json.dumps({
+            "model": self.params['model_name'],
+            "messages": [
+                {"role": "system", "content": systemCommand},
+                {"role": "user", "content": query}
+                ],
+            "temperature": self.params['temperature'],
+            'max_tokens': self.params['max_new_tokens'],
+            "top_p": self.params['top_p'],
+        })
+
+        completion = self.client.chat.completions.create(
+            **payload
+        )
+
+        real_res = completion["choices"][0]["message"]["content"]
+
+        token_consumed = completion['usage']['total_tokens']
         logger.info(f'GPT token consumed: {token_consumed}') if self.report else ()
         return real_res

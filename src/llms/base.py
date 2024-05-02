@@ -32,13 +32,13 @@ class BaseLLM(ABC):
             return new_obj
 
     @abstractmethod
-    def request(self, query:str) -> str:
+    def request(self, query:str, **kwargs) -> str:
         return ''
 
-    def safe_request(self, query: str) -> str:
+    def safe_request(self, query: str, **kwargs) -> str:
         """Safely make a request to the language model, handling exceptions."""
         try:
-            response = self.request(query)
+            response = self.request(query, **kwargs)
         except Exception as e:
             logger.warning(repr(e))
             response = ''

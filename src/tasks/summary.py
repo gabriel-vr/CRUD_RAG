@@ -28,6 +28,15 @@ class Summary(BaseTask):
                 model_name=quest_eval_model, temperature=0.1, 
                 max_new_tokens=1280, task_name=self.__class__.__name__
             )
+        self.systemCommand = """
+            Você é um jornalista. Quero que você gere um resumo de uma notícia com base no título e nos trechos recuperados sobre o evento. A seguir têm-se um formato abstrato sobre como gerar o resumo:
+
+            <response>
+            Segundo uma porta-voz da ONU, o avião, de fabricacão russa, estava tentando aterrissar no aeroporto de Bukavu em meio a uma tempestade.
+            Ao menos 17 pessoas morreram após a queda de um avião de passageiros na República Democrática do Congo.
+            Todos morreram quando o avião, prejudicado pelo mau tempo, não conseguiu chegar à pista de aterrissagem e caiu numa floresta a 15 quilômetros do aeroporto de Bukavu.
+            </response>        
+            """
     
     def set_model(self, model, retriever) -> None:
         self.model = model
@@ -45,7 +54,7 @@ class Summary(BaseTask):
             event=f'{obj["event"]}',
             search_documents=f'{obj["retrieve_context"]}'
         )
-        res = self.model.safe_request(query)
+        res = self.model.safe_request(query, system=self.systemCommand)
         real_res = res.split('<response>')[-1].split('</response>')[0]
         return real_res.strip()
 
