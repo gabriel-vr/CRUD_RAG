@@ -10,4 +10,5 @@ if conf.GPT_api_key != '':
 
 from .remote_model import GPT
 
-from .local_model import Qwen_7B_Chat, Qwen_14B_Chat, Baichuan2_13B_Chat, ChatGLM3_6B_Chat, Llama2_7B_Chat
+from .local_model import Llama2_7B_Chat
+"""Qwen_7B_Chat, Qwen_14B_Chat, Baichuan2_13B_Chat, ChatGLM3_6B_Chat,""" 

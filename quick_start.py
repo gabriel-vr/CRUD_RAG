@@ -3,7 +3,6 @@ from loguru import logger
 from src.datasets.xinhua import get_task_datasets
 from evaluator import BaseEvaluator
 from src.llms import GPT
-from src.llms import Qwen_7B_Chat
 from src.llms import Llama2_7B_Chat
 from src.tasks.summary import Summary
 from src.tasks.continue_writing import ContinueWriting
@@ -54,11 +53,12 @@ logger.info(args)
 
 if args.model_name.startswith("gpt"):
     llm = GPT(model_name=args.model_name, temperature=args.temperature, max_new_tokens=args.max_new_tokens)
-elif args.model_name == "qwen7b":
-    llm = Qwen_7B_Chat(model_name=args.model_name, temperature=args.temperature, max_new_tokens=args.max_new_tokens)
 elif (args.model_name == 'llama27b'):
     llm = Llama2_7B_Chat(model_name=args.model_name, temperature=args.temperature, max_new_tokens=args.max_new_tokens)
 embed_model = HuggingfaceEmbeddings(model_name=args.embedding_name)
+"""elif args.model_name == "qwen7b":
+    llm = Qwen_7B_Chat(model_name=args.model_name, temperature=args.temperature, max_new_tokens=args.max_new_tokens)
+"""
 
 if args.retriever_name == "base":
     retriever = BaseRetriever(
