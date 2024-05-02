@@ -85,7 +85,6 @@ class GPT(BaseLLM):
     def __init__(self, model_name='gpt-3.5-turbo', temperature=1.0, max_new_tokens=1024, report=False):
         super().__init__(model_name, temperature, max_new_tokens)
         self.report = report
-        self.client = OpenAI()
 
     def request(self, query: str) -> str:
         url = conf.GPT_transit_url
@@ -119,6 +118,8 @@ class GPT(BaseLLM):
     def __init__(self, model_name='gpt-3.5-turbo', temperature=1.0, max_new_tokens=1024, report=False):
         super().__init__(model_name, temperature, max_new_tokens)
         self.report = report
+        self.client = OpenAI()
+
 
     def request(self, query: str, **kwargs) -> str:
         systemCommand = kwargs.get("system", "Você é um assitente que deverá performar a tarefa passada no contexto.")
