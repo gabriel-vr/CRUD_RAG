@@ -123,7 +123,7 @@ class GPT(BaseLLM):
 
     def request(self, query: str, **kwargs) -> str:
         systemCommand = kwargs.get("system", "Você é um assitente que deverá performar a tarefa passada no contexto.")
-        payload = json.dumps({
+        payload = {
             "model": self.params['model_name'],
             "messages": [
                 {"role": "system", "content": systemCommand},
@@ -132,7 +132,7 @@ class GPT(BaseLLM):
             "temperature": self.params['temperature'],
             'max_tokens': self.params['max_new_tokens'],
             "top_p": self.params['top_p'],
-        })
+        }
 
         completion = self.client.chat.completions.create(
             **payload
