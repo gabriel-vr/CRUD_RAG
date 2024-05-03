@@ -55,7 +55,7 @@ if args.model_name.startswith("gpt"):
     llm = GPT(model_name=args.model_name, temperature=args.temperature, max_new_tokens=args.max_new_tokens)
 elif args.model_name == 'llama27b':
     llm = Llama2_7B_Chat(model_name=args.model_name, temperature=args.temperature, max_new_tokens=args.max_new_tokens)
-elif args.model_name == 'llama38b':
+elif args.model_name == 'llama3-8b-8192':
     llm = Llama3_8b(model_name=args.model_name, temperature=args.temperature, max_new_tokens=args.max_new_tokens)
 embed_model = HuggingfaceEmbeddings(model_name=args.embedding_name)
 """elif args.model_name == "qwen7b":
