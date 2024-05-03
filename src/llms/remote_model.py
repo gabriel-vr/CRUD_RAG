@@ -5,6 +5,8 @@ from loguru import logger
 from src.llms.base import BaseLLM
 from importlib import import_module
 from openai import OpenAI
+from groq import Groq
+import os
 
 try:
     conf = import_module("src.configs.real_config")
@@ -143,3 +145,36 @@ class GPT(BaseLLM):
         token_consumed = completion['usage']['total_tokens']
         logger.info(f'GPT token consumed: {token_consumed}') if self.report else ()
         return real_res
+
+class Llama3_8b(BaseLLM):
+    def __init__(self, model_name='llama3-8b-8192', temperature=1.0, max_new_tokens=1024, report=False):
+        super().__init__(model_name, temperature, max_new_tokens)
+        self.report = report
+        self.client = Groq(
+            api_key=os.environ.get("GROQ_API_KEY"),
+        )
+
+
+    def request(self, query: str, **kwargs) -> str:
+        systemCommand = kwargs.get("system", "Você é um assitente que deverá performar a tarefa passada no contexto.")
+        payload = {
+            "model": self.params['model_name'],
+            "messages": [
+                {"role": "system", "content": systemCommand},
+                {"role": "user", "content": query}
+                ],
+            "temperature": self.params['temperature'],
+            'max_tokens': self.params['max_new_tokens'],
+            "top_p": self.params['top_p'],
+        }
+
+        completion = self.client.chat.completions.create(
+            **payload
+        )
+
+        real_res = completion["choices"][0]["message"]["content"]
+
+        token_consumed = completion['usage']['total_tokens']
+        logger.info(f'Llama3 from Groq token consumed: {token_consumed}') if self.report else ()
+        return real_res
+

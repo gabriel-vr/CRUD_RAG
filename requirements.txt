@@ -11,3 +11,4 @@ elasticsearch
 FlagEmbedding
 rouge_score
 openai==1.25.1
+groq==0.5.0

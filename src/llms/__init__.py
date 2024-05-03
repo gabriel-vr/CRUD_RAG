@@ -8,7 +8,7 @@ if conf.GPT_api_key != '':
     from .api_model import GPT
 #elif conf.GPT_transit_url != '':
 
-from .remote_model import GPT
+from .remote_model import GPT, Llama3_8b
 
 from .local_model import Llama2_7B_Chat
 """Qwen_7B_Chat, Qwen_14B_Chat, Baichuan2_13B_Chat, ChatGLM3_6B_Chat,""" 
